@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <button class="btn btn-primary btn-lg btn-block" style="margin-top:20px;" id="loadPrayerTime">Load Prayer Time</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="prayerTime">
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+
+        $(function () {
+            $(document).on("click", "#loadPrayerTime", function () {
+                $.ajax({
+                    url: " http://api.aladhan.com/v1/timingsByCity?city=Baku&country=Azerbaijan&method=8",
+                    data: getData(),
+                    type: "GET",
+                    success: function (res) {
+                        console.log(res);
+                    }
+                });
+                function getData() {
+
+                    class Prayer {
+                        constructor(city, country) {
+                            this.city = city;
+                            this.country = country;
+                        }
+                    }
+                    let p1 = new Prayer('Baku', 'Azerbaijan');
+                    let p2 = new Prayer('London', 'United Kingdom');
+
+                    var prayers=[p1,p2]
+                    return JSON.stringify(prayers);
+                }
+            });
+           
+        })
+    </script>
+    }
